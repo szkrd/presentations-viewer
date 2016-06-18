@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: {
     app: [ './client/index.js' ],
-    vendor: [ 'jqlite', 'page', 'markdown' ]
+    vendor: [ 'jqlite', 'page', 'marked' ]
   },
   output: {
     path: path.resolve('./dist'), // this MUST be an absolute path

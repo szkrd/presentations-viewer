@@ -1,87 +1,50 @@
 import $ from 'jqlite'
 import page from 'page'
-import markdown from 'markdown'
+import marked from 'marked'
 import template from './template.hbs'
+import store from './store'
+import * as pager from './pager'
+import * as keyHandler from './keyHandler'
+import * as controlBar from './controlBar'
 import './style.less'
-
-let currentId
-let currentPage = 0
-let maxPage = 999
-
-function setActivePage (n) {
-  if (!$(`.page-${n + 1}`).length) {
-    maxPage = n
-  }
-  $('.page').removeClass('active')
-  $(`.page-${n}`).addClass('active')
-}
 
 function fetchAndRender (id) {
   return fetch(`/api/presentation/${id}`)
     .then(resp => resp.json())
     .then((data) => {
-      maxPage = data.pages.length
+      store.maxPage = data.pages.length - 1
       $('body').html(template({
-        pages: data.pages.map(chunk => markdown.parse(chunk))
+        pages: data.pages.map(chunk => marked(chunk))
       }))
     })
 }
 
-function goToPrevPage () {
-  let to = !currentPage ? 0 : currentPage - 1
-  page(`/presentation/${currentId}/${to}`)
-}
-
-function goToNextPage () {
-  const to = currentPage < maxPage ? currentPage + 1 : maxPage
-  page(`/presentation/${currentId}/${to}`)
-}
-
-function initControlBar () {
-  $('.control-bar .prev').on('click', goToPrevPage)
-  $('.control-bar .next').on('click', goToNextPage)
-}
-
-function onKeyDown (e) {
-  const LEFT = 37
-  const RIGHT = 39
-  if (e.metaKey || e.altKey || e.ctrlKey) {
-    return
-  }
-  if (e.keyCode === LEFT) {
-    goToPrevPage()
-  } else if (e.keyCode === RIGHT) {
-    goToNextPage()
-  }
-}
-
-function initKeyHandler () {
-  $(document).on('keydown', onKeyDown)
-}
-
 function onDestroy () {
-  $(document).off('keydown', onKeyDown)
+  keyHandler.destroy()
 }
 
 // ---
 
 function view (ctx) {
-  currentId = ctx.params.id
-  currentPage = parseInt(ctx.params.page, 10) || 0
-  const viewIsEmpty = !$('.view-presentation').length
+  store.currentId = ctx.params.id
+  store.currentPage = parseInt(ctx.params.page, 10) || 0
+  const viewIsNotEmpty = $('.view-presentation').length > 0
 
-  if (viewIsEmpty) {
-    fetchAndRender(currentId).then(() => {
-      if (currentPage > maxPage) {
-        page(`/presentation/${currentId}/${maxPage - 1}`)
-      }
-      setActivePage(currentPage)
-      initKeyHandler()
-      initControlBar()
-    })
-  } else {
-    setActivePage(currentPage)
+  // the dom is okay, we have everything we need
+  if (viewIsNotEmpty) {
+    pager.setActivePage(store.currentPage)
+    return
   }
+
+  // view is empty, download pages
+  fetchAndRender(store.currentId).then(() => {
+    if (store.currentPage > store.maxPage) {
+      page(`/presentation/${store.currentId}/${store.maxPage}`)
+    }
+    pager.setActivePage(store.currentPage)
+    keyHandler.init()
+    controlBar.init()
+  })
 }
 
 export default Object.assign(view, {
