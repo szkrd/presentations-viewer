@@ -22,9 +22,12 @@ module.exports = function * () {
     this.throw('File not found error', 404)
   }
 
+  let pages = (contents || '').split(/(-{3,})[\r\n]+\1[\r\n]+/) // double "---"
+  pages = pages.filter(s => !/^-+$/.test(s))
+
   this.body = {
     id: params.id,
     name: active.name,
-    contents
+    pages
   }
 }

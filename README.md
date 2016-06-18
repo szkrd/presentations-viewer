@@ -7,7 +7,13 @@ Server and client for my presentations.
 Presentations must be in a README.md, pages are separated with double
 horizontal rulers. See example [here](https://github.com/szkrd/presentations).
 
-## env vars
+## server
+
+* serves /dist with koa static
+* api is at /api/*
+* in dev mode webpack dev server proxy is used
+
+### env vars
 
 Using dotenv (nodemon.json for development).
 

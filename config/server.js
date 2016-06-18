@@ -1,4 +1,4 @@
-require('dotenv');
+require('dotenv').config();
 
 ['DATA'].forEach(req => {
   if (!process.env[req]) {

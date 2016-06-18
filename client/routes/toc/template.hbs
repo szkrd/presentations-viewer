@@ -1,0 +1,15 @@
+<div class="page-toc">
+  <h1 class="title">Presentations</h1>
+
+  <ul class="toc">
+    {{#each data}}
+      <li>
+        <a href="./presentation/{{id}}/0">
+          {{name}}
+        </a>
+      </li>
+    {{else}}
+      <li>No presentations, sorry.</li>
+    {{/each}}
+  </ul>
+</div>

@@ -1,5 +1,6 @@
 const logger = require('winston')
 const koa = require('koa')
+const serve = require('koa-static')
 const Router = require('koa-router')
 const config = require('../config/server')
 const errorHandler = require('./utils/errorHandler')
@@ -15,9 +16,12 @@ const app = koa()
 const router = new Router()
 
 router
-  .get('/meta', meta.get)
-  .get('/presentation/:id', presentation.get)
+  .get('/api/meta', meta.get)
+  .get('/api/presentation/:id', presentation.get)
 
+app.use(serve('./dist'))
 app.use(errorHandler)
 app.use(router.routes())
 app.listen(config.port)
+
+logger.info(`Listening on ${config.port}`)
