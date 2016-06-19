@@ -1,5 +1,6 @@
 import $ from 'jqlite'
 import * as pager from './pager'
+import * as zoom from './zoom'
 
 function onKeyDown (e) {
   const HOME = 36
@@ -11,20 +12,24 @@ function onKeyDown (e) {
   }
   if (e.key === 'h') {
     pager.goToToc()
-    return
-  }
-  if (e.key === '0') {
+  } else if (e.key === '0') {
     pager.goToFirstPage()
-    return
-  }
-  if (e.keyCode === LEFT) {
-    pager.goToPrevPage()
-  } else if (e.keyCode === RIGHT) {
-    pager.goToNextPage()
-  } else if (e.keyCode === HOME) {
-    pager.goToFirstPage()
-  } else if (e.keyCode === END) {
+  } else if (e.key === '9') {
     pager.goToLastPage()
+  } else if (e.key === '+') {
+    zoom.increase()
+  } else if (e.key === '-') {
+    zoom.decrease()
+  } else {
+    if (e.keyCode === LEFT) {
+      pager.goToPrevPage()
+    } else if (e.keyCode === RIGHT) {
+      pager.goToNextPage()
+    } else if (e.keyCode === HOME) {
+      pager.goToFirstPage()
+    } else if (e.keyCode === END) {
+      pager.goToLastPage()
+    }
   }
 }
 

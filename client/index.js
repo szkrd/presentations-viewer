@@ -1,3 +1,4 @@
+/*global THEME*/
 import page from 'page'
 import $ from 'jqlite'
 import './index.less'
@@ -15,6 +16,18 @@ $(() => {
   page('/presentation/:id/:page', presentation)
   page({
     hashbang: true
+  })
+
+  // global theme switcher
+  $('body').addClass(`theme-${THEME}`)
+  $(document).on('keydown', (e) => {
+    const body = $('body')
+    const dark = body.hasClass('theme-dark')
+    if (e.key === 'i') {
+      body
+        .removeClass('theme-dark theme-light')
+        .addClass(dark ? 'theme-light' : 'theme-dark')
+    }
   })
 
   // teardown handler

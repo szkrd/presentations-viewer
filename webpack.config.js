@@ -1,3 +1,4 @@
+const config = require('./config/client')
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -5,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: {
     app: [ './client/index.js' ],
-    vendor: [ 'jqlite', 'page', 'marked' ]
+    vendor: [ 'jqlite', 'page', 'marked', 'highlight.js' ]
   },
   output: {
     path: path.resolve('./dist'), // this MUST be an absolute path
@@ -17,6 +18,9 @@ module.exports = {
     ),
     new HtmlWebpackPlugin({
       title: 'Presentations'
+    }),
+    new webpack.DefinePlugin({
+      THEME: JSON.stringify(config.defaultTheme)
     })
   ],
   module: {

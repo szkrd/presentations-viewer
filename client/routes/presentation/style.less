@@ -1,6 +1,10 @@
 .view-presentation {
   .page {
-    display: none;
+    // display: none;
+    opacity: 0;
+    transition: all 0.4s;
+    transform: scale(0.1, 0.1);
+
     padding: 10px;
     position: absolute;
     top: 20px;
@@ -9,11 +13,14 @@
     left: 20px;
     border: 1px solid #eee;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    border-radius: 15px;
+    border-radius: 5px;
     overflow: auto;
   }
   .page.active {
-    display: block;
+    // display: block;
+    z-index: 2;
+    opacity: 1;
+    transform: scale(1, 1);
   }
 
   .markdown-body {

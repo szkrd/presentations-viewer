@@ -3,10 +3,17 @@ import page from 'page'
 import marked from 'marked'
 import template from './template.hbs'
 import store from './store'
+import * as zoom from './zoom'
 import * as pager from './pager'
 import * as keyHandler from './keyHandler'
 import * as controlBar from './controlBar'
 import './style.less'
+
+marked.setOptions({
+  highlight: function (code) {
+    return require('highlight.js').highlightAuto(code).value
+  }
+})
 
 function fetchAndRender (id) {
   return fetch(`/api/presentation/${id}`)
@@ -42,6 +49,7 @@ function view (ctx) {
       page(`/presentation/${store.currentId}/${store.maxPage}`)
     }
     pager.setActivePage(store.currentPage)
+    zoom.init()
     keyHandler.init()
     controlBar.init()
   })
