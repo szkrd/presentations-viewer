@@ -16,7 +16,7 @@ module.exports = function * (next) {
     yield next
   } catch (err) {
     if (config.isDev) {
-      console.log(pe.render(err).replace(/\n+/g, '\n'))
+      console.log(pe.render(err))
     } else {
       logger.error(err)
     }
