@@ -28,7 +28,15 @@ function fetchAndRender (id) {
     .then((data) => {
       store.maxPage = data.pages.length - 1
       $('body').html(template({
-        pages: data.pages.map(chunk => emojione.toImage(marked(chunk)))
+        pages: data.pages.map(chunk => {
+          chunk = marked(chunk)
+          chunk = emojione.toImage(chunk)
+          // this may mess up the src tags inside the code blocks?
+          chunk = chunk.replace(/src="([a-z0-9-_]*?)\.(jpe?g|png|gif|svg)"/g, (full, name, ext) =>
+            name.startsWith('http') ? full : `src="/api/images/${id}/${name}.${ext}"`
+          )
+          return chunk
+        })
       }))
     })
 }

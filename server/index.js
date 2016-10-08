@@ -11,6 +11,7 @@ logger.level = config.logLevel
 
 const meta = require('./routes/meta')
 const presentation = require('./routes/presentation')
+const images = require('./routes/images')
 
 const app = koa()
 const router = new Router()
@@ -18,6 +19,7 @@ const router = new Router()
 router
   .get('/api/meta', meta.get)
   .get('/api/presentation/:id', presentation.get)
+  .get('/api/images/:presentationId/:imageName', images.get)
 
 app.use(serve('./dist'))
 app.use(errorHandler)
