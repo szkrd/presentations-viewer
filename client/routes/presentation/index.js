@@ -1,6 +1,7 @@
 import $ from 'jqlite'
 import page from 'page'
-import marked from 'marked'
+import marked, { Renderer } from 'marked'
+import highlightjs from 'highlight.js'
 import emojione from 'emojione'
 import template from './template.hbs'
 import store from './store'
@@ -10,12 +11,16 @@ import * as keyHandler from './keyHandler'
 import * as controlBar from './controlBar'
 import './style.less'
 
-// setup marked
-marked.setOptions({
-  highlight: function (code) {
-    return require('highlight.js').highlightAuto(code).value
-  }
-})
+// setup marked with highlightjs
+const renderer = new Renderer()
+renderer.code = (code, lang) => {
+  const supported = !!(lang && highlightjs.getLanguage(lang))
+  const html = supported ? highlightjs.highlight(lang, code).value : code
+  return `<pre><code class="hljs ${lang}">${html}</code></pre>`
+}
+
+// Set the renderer to marked.
+marked.setOptions({ renderer });
 
 // setup emojione
 emojione.imageType = 'svg'
