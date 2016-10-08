@@ -1,6 +1,7 @@
 import $ from 'jqlite'
 import page from 'page'
 import marked from 'marked'
+import emojione from 'emojione'
 import template from './template.hbs'
 import store from './store'
 import * as zoom from './zoom'
@@ -9,11 +10,17 @@ import * as keyHandler from './keyHandler'
 import * as controlBar from './controlBar'
 import './style.less'
 
+// setup marked
 marked.setOptions({
   highlight: function (code) {
     return require('highlight.js').highlightAuto(code).value
   }
 })
+
+// setup emojione
+emojione.imageType = 'svg'
+emojione.sprites = true
+emojione.imagePathSVGSprites = '/emojione.sprites.svg'
 
 function fetchAndRender (id) {
   return fetch(`/api/presentation/${id}`)
@@ -21,7 +28,7 @@ function fetchAndRender (id) {
     .then((data) => {
       store.maxPage = data.pages.length - 1
       $('body').html(template({
-        pages: data.pages.map(chunk => marked(chunk))
+        pages: data.pages.map(chunk => emojione.toImage(marked(chunk)))
       }))
     })
 }

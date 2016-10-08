@@ -2,6 +2,7 @@ const config = require('./config/client')
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -9,10 +10,14 @@ module.exports = {
     vendor: [ 'jqlite', 'page', 'marked', 'highlight.js' ]
   },
   output: {
-    path: path.resolve('./dist'), // this MUST be an absolute path
+    path: path.resolve('./dist'), // this MUST be an absolute path (?)
     filename: 'index_bundle.js'
   },
   plugins: [
+    new CopyWebpackPlugin([{
+      from: './node_modules/emojione/assets/sprites/emojione.sprites.svg',
+      to: './' // appends dist
+    }]),
     new webpack.optimize.CommonsChunkPlugin(
       'vendor', 'vendor.bundle.js'
     ),
