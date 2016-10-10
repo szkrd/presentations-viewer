@@ -10,7 +10,9 @@ function onKeyDown (e) {
   if (e.metaKey || e.altKey || e.ctrlKey) {
     return
   }
-  if (e.key === 'h') {
+  if (e.key === 'f') {
+    zoom.toggleFullScreen()
+  } else if (e.key === 'h') {
     pager.goToToc()
   } else if (e.key === '0') {
     pager.goToFirstPage()

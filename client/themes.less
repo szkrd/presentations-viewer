@@ -1,6 +1,7 @@
 
 .theme-light {
   @import (less) '~highlight.js/styles/github.css';
+  .hljs-attr { color: #33a; }
 }
 
 .theme-dark {
@@ -90,6 +91,7 @@
   .markdown-body kbd { color: @color7; background-color: @colorP; border-color: @colorI; border-bottom-color: @colorG; box-shadow: inset 0 -1px 0 @colorG; }
   .markdown-body .full-commit .btn-outline:not(:disabled):hover { color: @color6; border-color: @color6; }
   .markdown-body :checked+.radio-label { border-color: @color6; }
+  .markdown-body .hljs-attr { color: @colorL; }
   // ----------------------
   ::-webkit-scrollbar {
     height: 12px;

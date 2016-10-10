@@ -20,7 +20,7 @@ renderer.code = (code, lang) => {
 }
 
 // Set the renderer to marked.
-marked.setOptions({ renderer });
+marked.setOptions({ renderer })
 
 // setup emojione
 emojione.imageType = 'svg'

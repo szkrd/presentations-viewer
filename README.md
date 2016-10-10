@@ -11,6 +11,7 @@ horizontal rulers. See example [here](https://github.com/szkrd/presentations).
 
 * __HOME/0__: first page
 * __END/9__: last page
+* __f__: toggle fullscreen
 * __h__: table of contents
 * __+__: increase font
 * __-__: decrease font
