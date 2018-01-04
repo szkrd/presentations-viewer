@@ -46,7 +46,7 @@
     "jqlite": "0.2.38",
     "less": "2.7.1",
     "less-loader": "2.2.3",
-    "marked": "0.3.6",
+    "marked": "0.3.9",
     "nodemon": "1.9.2",
     "npm-run-all": "2.2.0",
     "page": "1.7.1",
